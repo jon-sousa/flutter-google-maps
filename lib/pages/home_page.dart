@@ -27,24 +27,31 @@ class _HomePageState extends State<HomePage> {
 
     _tratarRequisicao(response);
     if (requisicaoIncorreta == true) {
+      setState(() {});
       return;
     }
 
-    endereco = jsonDecode(response.body);
-    setState(() {});
+    setState(() {
+      endereco = jsonDecode(response.body);
+    });
   }
 
   _tratarRequisicao(http.Response response) {
     if (response.statusCode >= 400 || response.body.isEmpty) {
       requisicaoIncorreta = true;
+      return;
     }
+
+    var enderecoResponse = jsonDecode(response.body);
+    if (enderecoResponse['logradouro'] == null) {
+      requisicaoIncorreta = true;
+      return;
+    }
+
+    requisicaoIncorreta = false;
   }
 
   Widget _buildEnderecoWidget() {
-    if (requisicaoIncorreta == true) {
-      return const Text('Requisição Incorreta');
-    }
-
     if (requisicaoIncorreta == false && endereco.isNotEmpty) {
       return Card(
         color: Colors.blue,
@@ -65,6 +72,11 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
+      );
+    }
+    if (requisicaoIncorreta == true) {
+      return const Center(
+        child: Text('Erro na requisição ou requisição incorreta'),
       );
     } else {
       return Container();
