@@ -32,28 +32,31 @@ class _LoginPageState extends State<LoginPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Form(
-              child: Column(
-            children: [
-              TextFormField(
-                controller: _usuarioController,
-                decoration: const InputDecoration(
-                  label: Text('Usuário'),
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+            child: Form(
+                child: Column(
+              children: [
+                TextFormField(
+                  controller: _usuarioController,
+                  decoration: const InputDecoration(
+                    label: Text('Usuário'),
+                  ),
                 ),
-              ),
-              TextFormField(
-                obscureText: true,
-                controller: _senhaController,
-                decoration: const InputDecoration(
-                  label: Text('Senha'),
+                TextFormField(
+                  obscureText: true,
+                  controller: _senhaController,
+                  decoration: const InputDecoration(
+                    label: Text('Senha'),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              ElevatedButton(onPressed: _login, child: const Text('Login'))
-            ],
-          ))
+                const SizedBox(
+                  height: 8,
+                ),
+                ElevatedButton(onPressed: _login, child: const Text('Login'))
+              ],
+            )),
+          )
         ],
       ),
     );

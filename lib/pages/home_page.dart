@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:entrega/pages/login_page.dart';
 import 'package:entrega/pages/map_page.dart';
+import 'package:entrega/providers/shared_preferences_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,7 +31,6 @@ class _HomePageState extends State<HomePage> {
     }
 
     endereco = jsonDecode(response.body);
-    print(endereco['logradouro']);
     setState(() {});
   }
 
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildEnderecoWidget() {
     if (requisicaoIncorreta == true) {
-      return Text('Requisição Incorreta');
+      return const Text('Requisição Incorreta');
     }
 
     if (requisicaoIncorreta == false && endereco.isNotEmpty) {
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
               Text('Bairro: ${endereco['bairro']}'),
               Text('Municipio: ${endereco['localidade']}'),
               Text('Estado: ${endereco['uf']}'),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               _buildLocalizacao(),
@@ -93,6 +94,18 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Entrega'),
+        actions: [
+          GestureDetector(
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.logout),
+              ),
+              onTap: () {
+                SharedPreferencesHelper().setUsuario(false);
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              })
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.only(left: 16, right: 16),
